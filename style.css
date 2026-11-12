@@ -1,0 +1,295 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: #f4f4f9;
+  display: flex;
+  justify-content: center;
+  padding: 24px 16px;
+  color: #333;
+}
+
+.container {
+  background: white;
+  padding: 24px;
+  border-radius: 14px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  max-width: 480px;
+  width: 100%;
+  text-align: center;
+}
+
+h1 {
+  margin-bottom: 16px;
+  color: #e3350d;
+}
+
+.oculto {
+  display: none !important;
+}
+
+.controles {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  align-items: flex-start;
+}
+
+.busca-wrapper {
+  position: relative;
+  flex: 1;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 0.95rem;
+}
+
+input:focus {
+  outline: none;
+  border-color: #e3350d;
+}
+
+.sugestoes-lista {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  max-height: 240px;
+  overflow-y: auto;
+  list-style: none;
+  z-index: 100;
+  text-align: left;
+}
+
+.sugestoes-lista li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-bottom: 1px solid #f0f0f0;
+  text-transform: capitalize;
+  font-size: 0.92rem;
+}
+
+.sugestoes-lista li:last-child {
+  border-bottom: none;
+}
+
+.sugestoes-lista li:hover {
+  background-color: #f4f6f9;
+}
+
+.sugestoes-lista img {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+}
+
+.sugestao-id {
+  color: #888;
+  font-size: 0.85rem;
+  font-weight: bold;
+  margin-left: auto;
+}
+
+button {
+  padding: 10px 14px;
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  background-color: #e3350d;
+  color: white;
+  font-weight: bold;
+  transition: opacity 0.2s;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+button#btn-aleatorio {
+  background-color: #30a7d7;
+}
+
+#mensagem-status {
+  font-weight: bold;
+  color: #666;
+  margin: 12px 0;
+}
+
+.variacoes-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #eee;
+}
+
+.btn-variacao {
+  padding: 6px 12px;
+  font-size: 0.8rem;
+  border-radius: 20px;
+  background-color: #f0f2f5;
+  color: #444;
+  border: 1px solid #dcdcdc;
+  text-transform: capitalize;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.btn-variacao:hover {
+  background-color: #e2e6ea;
+  opacity: 1;
+}
+
+.btn-variacao.ativa {
+  background-color: #333;
+  color: white;
+  border-color: #333;
+}
+
+.cabecalho {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+#poke-id {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #777;
+}
+
+#poke-foto {
+  width: 190px;
+  height: 190px;
+  object-fit: contain;
+  margin: 8px 0;
+}
+
+.badges {
+  margin-bottom: 12px;
+}
+
+.badges span {
+  display: inline-block;
+  padding: 5px 14px;
+  margin: 4px;
+  border-radius: 20px;
+  background: #eee;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+
+.medidas {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  background-color: #f8f9fa;
+  padding: 10px;
+  border-radius: 8px;
+  margin-top: 8px;
+}
+
+.secao {
+  text-align: left;
+  margin-top: 18px;
+  border-top: 1px solid #eee;
+  padding-top: 12px;
+}
+
+.secao h3 {
+  margin-bottom: 10px;
+  font-size: 1.05rem;
+  color: #222;
+}
+
+#poke-habilidades {
+  list-style-position: inside;
+  text-transform: capitalize;
+  line-height: 1.6;
+}
+
+.stats-grafico {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.stat-linha {
+  display: grid;
+  grid-template-columns: 125px 36px 1fr;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+}
+
+.stat-nome {
+  font-weight: bold;
+  color: #444;
+}
+
+.stat-valor {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  color: #222;
+}
+
+.barra-fundo {
+  width: 100%;
+  height: 12px;
+  background-color: #e9ecef;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.barra-preenchimento {
+  height: 100%;
+  border-radius: 6px;
+  transition: width 0.4s ease-out;
+}
+
+.evolucoes-lista {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.evo-item {
+  cursor: pointer;
+  text-align: center;
+  text-transform: capitalize;
+  padding: 6px;
+  border-radius: 8px;
+  transition: background-color 0.2s;
+}
+
+.evo-item:hover {
+  background-color: #f0f2f5;
+}
+
+.evo-item p {
+  font-size: 0.9rem;
+  font-weight: 600;
+}

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pokédex</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="container">
+    <h1>Pokédex</h1>
+    
+    <div class="controles">
+      <div class="busca-wrapper">
+        <input type="text" id="input-busca" placeholder="Nome ou número (ex: pikachu ou 25)" autocomplete="off">
+        <ul id="lista-sugestoes" class="sugestoes-lista oculto"></ul>
+      </div>
+      <button id="btn-buscar">Buscar</button>
+      <button id="btn-aleatorio">Aleatório</button>
+    </div>
+
+    <p id="mensagem-status"></p>
+
+    <section id="card-pokemon" class="oculto">
+      <div id="poke-variacoes" class="variacoes-container oculto"></div>
+
+      <div class="cabecalho">
+        <h2 id="poke-nome"></h2>
+        <span id="poke-id"></span>
+      </div>
+
+      <img id="poke-foto" src="" alt="Imagem do Pokémon">
+
+      <div id="poke-tipos" class="badges"></div>
+
+      <div class="medidas">
+        <p><strong>Altura:</strong> <span id="poke-altura"></span> cm</p>
+        <p><strong>Peso:</strong> <span id="poke-peso"></span> kg</p>
+      </div>
+
+      <div class="secao">
+        <h3>Habilidades</h3>
+        <ul id="poke-habilidades"></ul>
+      </div>
+
+      <div class="secao">
+        <h3>Estatísticas</h3>
+        <div id="poke-stats" class="stats-grafico"></div>
+      </div>
+
+      <div class="secao">
+        <h3>Cadeia Evolutiva</h3>
+        <div id="poke-evolucoes" class="evolucoes-lista"></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
