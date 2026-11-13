@@ -8,7 +8,15 @@
 </head>
 <body>
   <main class="container">
-    <h1>Pokédex</h1>
+    <header class="pokedex-topo">
+      <div class="lente-principal"></div>
+      <div class="leds-status">
+        <span class="led vermelho"></span>
+        <span class="led amarelo"></span>
+        <span class="led verde"></span>
+      </div>
+      <h1>POKÉDEX</h1>
+    </header>
     
     <div class="controles">
       <div class="busca-wrapper">
@@ -19,19 +27,52 @@
       <button id="btn-aleatorio">Aleatório</button>
     </div>
 
+    <div id="favoritos-secao" class="favoritos-secao oculto">
+      <h3>⭐ Favoritos</h3>
+      <div id="lista-favoritos" class="favoritos-lista"></div>
+    </div>
+
     <p id="mensagem-status"></p>
 
     <section id="card-pokemon" class="oculto">
       <div id="poke-variacoes" class="variacoes-container oculto"></div>
 
       <div class="cabecalho">
-        <h2 id="poke-nome"></h2>
-        <span id="poke-id"></span>
+        <button type="button" id="btn-anterior" class="btn-nav" title="Pokémon anterior">&#9664;</button>
+        <div class="titulo-pokemon">
+          <h2 id="poke-nome"></h2>
+          <span id="poke-id"></span>
+        </div>
+        <button type="button" id="btn-proximo" class="btn-nav" title="Próximo Pokémon">&#9654;</button>
       </div>
 
-      <img id="poke-foto" src="" alt="Imagem do Pokémon">
+      <div class="visor-moldura">
+        <div class="visor-leds">
+          <span></span>
+          <span></span>
+        </div>
+        <div class="foto-container">
+          <img id="poke-foto" src="" alt="Imagem do Pokémon">
+        </div>
+        <div class="visor-rodape">
+          <span class="visor-botao-vermelho"></span>
+          <div class="visor-alto-falante">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="acoes-midia">
+        <button type="button" id="btn-shiny" class="btn-midia oculto">✨ Shiny</button>
+        <button type="button" id="btn-som" class="btn-midia oculto">🔊 Som</button>
+        <button type="button" id="btn-favoritar" class="btn-midia">☆ Favoritar</button>
+      </div>
 
       <div id="poke-tipos" class="badges"></div>
+
+      <p id="poke-descricao" class="descricao-pokedex"></p>
 
       <div class="medidas">
         <p><strong>Altura:</strong> <span id="poke-altura"></span> cm</p>
