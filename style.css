@@ -6,7 +6,7 @@
 
 body {
   font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  background: radial-gradient(circle at top, #2c3e50, #1a252f);
+  background: url("https://i.pinimg.com/736x/a5/04/57/a504572d866a26db93d1fe03185bc645.jpg");
   min-height: 100vh;
   display: flex;
   justify-content: center;
