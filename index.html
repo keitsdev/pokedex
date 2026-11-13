@@ -3,97 +3,155 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pokédex</title>
+  <meta name="theme-color" content="#d9092b">
+  <title>Pokédex — Guia Pokémon</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <main class="container">
-    <header class="pokedex-topo">
-      <div class="lente-principal"></div>
-      <div class="leds-status">
-        <span class="led vermelho"></span>
-        <span class="led amarelo"></span>
-        <span class="led verde"></span>
-      </div>
-      <h1>POKÉDEX</h1>
-    </header>
-    
-    <div class="controles">
-      <div class="busca-wrapper">
-        <input type="text" id="input-busca" placeholder="Nome ou número (ex: pikachu ou 25)" autocomplete="off">
-        <ul id="lista-sugestoes" class="sugestoes-lista oculto"></ul>
-      </div>
-      <button id="btn-buscar">Buscar</button>
-      <button id="btn-aleatorio">Aleatório</button>
-    </div>
+    <section class="device" id="pokedex" data-state="closed" aria-label="Pokédex">
+      <button class="device-cover" id="btn-abrir" type="button" aria-expanded="false" aria-controls="device-open">
+        <span class="capa-faixa" aria-hidden="true"></span>
+        <span class="capa-lente" aria-hidden="true"><span></span></span>
+        <span class="capa-leds" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="capa-titulo">POKÉMON</span>
+        <span class="capa-subtitulo">POKÉDEX</span>
+        <span class="capa-detalhe" aria-hidden="true"></span>
+        <span class="capa-dobradiça" aria-hidden="true"></span>
+        <span class="capa-instrucao"><span aria-hidden="true">↗</span> Clique para abrir</span>
+      </button>
 
-    <div id="favoritos-secao" class="favoritos-secao oculto">
-      <h3>⭐ Favoritos</h3>
-      <div id="lista-favoritos" class="favoritos-lista"></div>
-    </div>
-
-    <p id="mensagem-status"></p>
-
-    <section id="card-pokemon" class="oculto">
-      <div id="poke-variacoes" class="variacoes-container oculto"></div>
-
-      <div class="cabecalho">
-        <button type="button" id="btn-anterior" class="btn-nav" title="Pokémon anterior">&#9664;</button>
-        <div class="titulo-pokemon">
-          <h2 id="poke-nome"></h2>
-          <span id="poke-id"></span>
+      <section class="device-open" id="device-open" aria-label="Pokédex aberta" hidden>
+        <div class="livro-topo">
+          <div class="lente-aberta" aria-hidden="true"><span></span></div>
+          <div class="leds-abertos" aria-hidden="true"><i></i><i></i><i></i></div>
+          <span class="livro-identidade">GUIA DE CAMPO</span>
+          <button class="btn-fechar" id="btn-fechar" type="button" aria-label="Fechar a Pokédex">Fechar <span aria-hidden="true">×</span></button>
         </div>
-        <button type="button" id="btn-proximo" class="btn-nav" title="Próximo Pokémon">&#9654;</button>
-      </div>
 
-      <div class="visor-moldura">
-        <div class="visor-leds">
-          <span></span>
-          <span></span>
+        <div class="livro-paineis">
+          <section class="pagina pagina-principal" aria-label="Pesquisa e informações">
+            <div class="pagina-cabecalho">
+              <div>
+                <p class="eyebrow">CATÁLOGO DIGITAL · 001—1025</p>
+                <h1>Pesquisa</h1>
+              </div>
+              <span class="indicador-online"><i></i> POKÉAPI</span>
+            </div>
+
+            <nav class="menu-abas" role="tablist" aria-label="Seções da Pokédex">
+              <button class="aba ativa" id="aba-pokemon" type="button" role="tab" aria-selected="true" aria-controls="view-pokemon">
+                <span aria-hidden="true">⌕</span> Pokémon
+              </button>
+              <button class="aba" id="aba-favoritos" type="button" role="tab" aria-selected="false" aria-controls="view-favoritos">
+                <span aria-hidden="true">★</span> Favoritos <span id="contador-favoritos" class="contador">0</span>
+              </button>
+            </nav>
+
+            <div class="tela-conteudo">
+              <section class="view view-pokemon" id="view-pokemon" role="tabpanel" aria-labelledby="aba-pokemon">
+                <div class="controles">
+                  <div class="busca-wrapper">
+                    <label class="sr-only" for="input-busca">Buscar por nome ou número</label>
+                    <span class="icone-busca" aria-hidden="true">⌕</span>
+                    <input type="text" id="input-busca" placeholder="Nome ou número — ex.: Pikachu, 25" autocomplete="off">
+                    <ul id="lista-sugestoes" class="sugestoes-lista oculto"></ul>
+                  </div>
+                  <button id="btn-buscar" class="btn-buscar" type="button">Buscar</button>
+                </div>
+                <p class="atalho-busca">Dica: use as setas do teclado para navegar nas sugestões.</p>
+                <p id="mensagem-status" role="status" aria-live="polite"></p>
+
+                <section id="card-pokemon" class="card-pokemon oculto" aria-live="polite">
+                  <div id="poke-variacoes" class="variacoes-container oculto"></div>
+
+                  <div class="cabecalho">
+                    <button type="button" id="btn-anterior" class="btn-nav" title="Pokémon anterior" aria-label="Pokémon anterior">‹</button>
+                    <div class="titulo-pokemon">
+                      <h2 id="poke-nome"></h2>
+                      <span id="poke-id"></span>
+                    </div>
+                    <button type="button" id="btn-proximo" class="btn-nav" title="Próximo Pokémon" aria-label="Próximo Pokémon">›</button>
+                  </div>
+
+                  <div class="pokemon-resumo">
+                    <div class="visor-moldura">
+                      <div class="visor-leds" aria-hidden="true"><span></span><span></span></div>
+                      <div class="foto-container"><img id="poke-foto" src="" alt="Imagem do Pokémon"></div>
+                      <div class="visor-rodape" aria-hidden="true">
+                        <span class="visor-botao-vermelho"></span>
+                        <div class="visor-alto-falante"><span></span><span></span><span></span></div>
+                      </div>
+                    </div>
+                    <div class="resumo-dados">
+                      <div class="acoes-midia">
+                        <button type="button" id="btn-shiny" class="btn-midia oculto">✨ Shiny</button>
+                        <button type="button" id="btn-som" class="btn-midia oculto">🔊 Som</button>
+                        <button type="button" id="btn-favoritar" class="btn-midia">☆ Favoritar</button>
+                      </div>
+                      <div id="poke-tipos" class="badges"></div>
+                      <p id="poke-descricao" class="descricao-pokedex"></p>
+                      <div class="medidas">
+                        <p><strong>Altura</strong><span id="poke-altura"></span><small>cm</small></p>
+                        <p><strong>Peso</strong><span id="poke-peso"></span><small>kg</small></p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="detalhes-grid">
+                    <div class="secao">
+                      <h3>Habilidades</h3>
+                      <ul id="poke-habilidades"></ul>
+                    </div>
+                    <div class="secao">
+                      <h3>Estatísticas</h3>
+                      <div id="poke-stats" class="stats-grafico"></div>
+                    </div>
+                    <div class="secao secao-evolucoes">
+                      <h3>Cadeia evolutiva</h3>
+                      <div id="poke-evolucoes" class="evolucoes-lista"></div>
+                    </div>
+                  </div>
+                </section>
+
+                <div class="estado-vazio" id="estado-inicial">
+                  <span class="estado-icone" aria-hidden="true">✳</span>
+                  <p>Pronto para explorar?</p>
+                  <span>Pesquise um Pokémon pelo nome ou número para consultar seus dados.</span>
+                </div>
+              </section>
+
+              <section class="view view-favoritos oculto" id="view-favoritos" role="tabpanel" aria-labelledby="aba-favoritos" hidden>
+                <div class="favoritos-cabecalho">
+                  <div><p class="eyebrow">SUA COLEÇÃO</p><h2>Pokémon favoritos</h2></div>
+                  <span class="favoritos-selo" aria-hidden="true">★</span>
+                </div>
+                <p class="favoritos-intro">Seus Pokémon marcados ficam guardados aqui neste dispositivo.</p>
+                <div id="lista-favoritos" class="favoritos-lista"></div>
+                <p id="favoritos-vazio" class="favoritos-vazio">Sua coleção está vazia por enquanto. Marque um Pokémon como favorito para encontrá-lo aqui.</p>
+              </section>
+            </div>
+          </section>
+
+          <aside class="pagina pagina-controles" aria-label="Controles rápidos">
+            <div class="painel-display">
+              <div class="display-linha"><span>DEX SYSTEM</span><i></i></div>
+              <p>EXPLORE<br>O MUNDO<br>POKÉMON</p>
+              <span class="display-rodape">Nº 001 — 1025</span>
+            </div>
+            <div class="controle-rapido">
+              <span class="rotulo-controle">ACESSO RÁPIDO</span>
+              <button id="btn-aleatorio" class="btn-aleatorio" type="button"><span aria-hidden="true">↻</span> Pokémon aleatório</button>
+              <div class="controle-circular" aria-hidden="true"><span>+</span></div>
+            </div>
+            <div class="pagina-legenda"><span class="led-legenda"></span><span>BASE DE DADOS<br>ATUALIZADA</span></div>
+          </aside>
         </div>
-        <div class="foto-container">
-          <img id="poke-foto" src="" alt="Imagem do Pokémon">
-        </div>
-        <div class="visor-rodape">
-          <span class="visor-botao-vermelho"></span>
-          <div class="visor-alto-falante">
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-        </div>
-      </div>
-
-      <div class="acoes-midia">
-        <button type="button" id="btn-shiny" class="btn-midia oculto">✨ Shiny</button>
-        <button type="button" id="btn-som" class="btn-midia oculto">🔊 Som</button>
-        <button type="button" id="btn-favoritar" class="btn-midia">☆ Favoritar</button>
-      </div>
-
-      <div id="poke-tipos" class="badges"></div>
-
-      <p id="poke-descricao" class="descricao-pokedex"></p>
-
-      <div class="medidas">
-        <p><strong>Altura:</strong> <span id="poke-altura"></span> cm</p>
-        <p><strong>Peso:</strong> <span id="poke-peso"></span> kg</p>
-      </div>
-
-      <div class="secao">
-        <h3>Habilidades</h3>
-        <ul id="poke-habilidades"></ul>
-      </div>
-
-      <div class="secao">
-        <h3>Estatísticas</h3>
-        <div id="poke-stats" class="stats-grafico"></div>
-      </div>
-
-      <div class="secao">
-        <h3>Cadeia Evolutiva</h3>
-        <div id="poke-evolucoes" class="evolucoes-lista"></div>
-      </div>
+        <div class="livro-dobradica" aria-hidden="true"></div>
+        <div class="livro-rodape"><span>POKÉDEX DE CAMPO</span><span>TOQUE PARA EXPLORAR <b>●</b></span></div>
+      </section>
     </section>
+    <p class="rodape-pagina">Uma enciclopédia Pokémon para sua próxima aventura.</p>
   </main>
 
   <script src="script.js"></script>

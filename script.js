@@ -7,7 +7,17 @@ const btnProximo = document.getElementById('btn-proximo');
 const btnShiny = document.getElementById('btn-shiny');
 const btnSom = document.getElementById('btn-som');
 const btnFavoritar = document.getElementById('btn-favoritar');
-const favoritosSecao = document.getElementById('favoritos-secao');
+const pokedex = document.getElementById('pokedex');
+const btnAbrir = document.getElementById('btn-abrir');
+const btnFechar = document.getElementById('btn-fechar');
+const deviceOpen = document.getElementById('device-open');
+const abaPokemon = document.getElementById('aba-pokemon');
+const abaFavoritos = document.getElementById('aba-favoritos');
+const viewPokemon = document.getElementById('view-pokemon');
+const viewFavoritos = document.getElementById('view-favoritos');
+const contadorFavoritos = document.getElementById('contador-favoritos');
+const favoritosVazio = document.getElementById('favoritos-vazio');
+const estadoInicial = document.getElementById('estado-inicial');
 const listaFavoritos = document.getElementById('lista-favoritos');
 const pokeFoto = document.getElementById('poke-foto');
 const statusMsg = document.getElementById('mensagem-status');
@@ -42,28 +52,64 @@ function salvarFavoritos() {
 
 function renderizarFavoritos() {
   listaFavoritos.innerHTML = '';
-
-  if (favoritos.length === 0) {
-    favoritosSecao.classList.add('oculto');
-    return;
-  }
+  contadorFavoritos.textContent = favoritos.length;
+  favoritosVazio.classList.toggle('oculto', favoritos.length > 0);
 
   favoritos.forEach(fav => {
-    const item = document.createElement('div');
+    const item = document.createElement('button');
+    item.type = 'button';
     item.className = 'fav-item';
-    item.innerHTML = `
-      <img src="${fav.imagem}" alt="${fav.nome}">
-      <span>${fav.nome.replace(/-/g, ' ')}</span>
-    `;
+    item.setAttribute('aria-label', `Consultar ${fav.nome.replace(/-/g, ' ')}, número ${fav.id}`);
+    const imagem = document.createElement('img');
+    imagem.src = fav.imagem || `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${fav.id}.png`;
+    imagem.alt = '';
+    imagem.loading = 'lazy';
+    const nome = document.createElement('span');
+    nome.textContent = fav.nome.replace(/-/g, ' ');
+    const numero = document.createElement('small');
+    numero.textContent = `#${String(fav.id).padStart(4, '0')}`;
+    item.append(imagem, nome, numero);
     item.addEventListener('click', () => {
       inputBusca.value = '';
+      mostrarTela('pokemon');
       buscarPokemon(fav.nome);
     });
     listaFavoritos.appendChild(item);
   });
-
-  favoritosSecao.classList.remove('oculto');
 }
+
+function mostrarTela(tela) {
+  const favoritosAtivos = tela === 'favoritos';
+  viewPokemon.hidden = favoritosAtivos;
+  viewPokemon.classList.toggle('oculto', favoritosAtivos);
+  viewFavoritos.hidden = !favoritosAtivos;
+  viewFavoritos.classList.toggle('oculto', !favoritosAtivos);
+  abaPokemon.classList.toggle('ativa', !favoritosAtivos);
+  abaPokemon.setAttribute('aria-selected', String(!favoritosAtivos));
+  abaFavoritos.classList.toggle('ativa', favoritosAtivos);
+  abaFavoritos.setAttribute('aria-selected', String(favoritosAtivos));
+}
+
+function abrirPokedex() {
+  pokedex.dataset.state = 'open';
+  btnAbrir.setAttribute('aria-expanded', 'true');
+  btnAbrir.hidden = true;
+  deviceOpen.hidden = false;
+  window.setTimeout(() => inputBusca.focus(), 180);
+}
+
+function fecharPokedex() {
+  pokedex.dataset.state = 'closed';
+  btnAbrir.setAttribute('aria-expanded', 'false');
+  deviceOpen.hidden = true;
+  btnAbrir.hidden = false;
+  btnAbrir.focus();
+}
+
+btnAbrir.addEventListener('click', abrirPokedex);
+btnFechar.addEventListener('click', fecharPokedex);
+abaPokemon.addEventListener('click', () => mostrarTela('pokemon'));
+abaFavoritos.addEventListener('click', () => mostrarTela('favoritos'));
 
 function atualizarBotaoFavorito() {
   if (!pokemonAtual) return;
@@ -241,6 +287,8 @@ btnSom.addEventListener('click', () => {
 });
 
 async function buscarPokemon(identificador) {
+  mostrarTela('pokemon');
+  estadoInicial.classList.add('oculto');
   statusMsg.textContent = 'Carregando...';
   cardPokemon.classList.add('oculto');
 
@@ -414,4 +462,5 @@ function renderizarPokemon(pokemon, evolucoes, especie) {
     .join('');
 
   cardPokemon.classList.remove('oculto');
+  estadoInicial.classList.add('oculto');
 }
