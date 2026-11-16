@@ -26,6 +26,7 @@
           <div class="lente-aberta" aria-hidden="true"><span></span></div>
           <div class="leds-abertos" aria-hidden="true"><i></i><i></i><i></i></div>
           <span class="livro-identidade">GUIA DE CAMPO</span>
+          <button class="btn-tema" id="btn-tema" type="button" aria-pressed="false"><span id="icone-tema" aria-hidden="true">☾</span><span id="rotulo-tema">Tema escuro</span></button>
           <button class="btn-fechar" id="btn-fechar" type="button" aria-label="Fechar a Pokédex">Fechar <span aria-hidden="true">×</span></button>
         </div>
 
@@ -43,8 +44,14 @@
               <button class="aba ativa" id="aba-pokemon" type="button" role="tab" aria-selected="true" aria-controls="view-pokemon">
                 <span aria-hidden="true">⌕</span> Pokémon
               </button>
+              <button class="aba" id="aba-filtros" type="button" role="tab" aria-selected="false" aria-controls="view-filtros">
+                <span aria-hidden="true">☷</span> Filtros
+              </button>
               <button class="aba" id="aba-favoritos" type="button" role="tab" aria-selected="false" aria-controls="view-favoritos">
                 <span aria-hidden="true">★</span> Favoritos <span id="contador-favoritos" class="contador">0</span>
+              </button>
+              <button class="aba" id="aba-comparacao" type="button" role="tab" aria-selected="false" aria-controls="view-comparacao">
+                <span aria-hidden="true">⇄</span> Comparar
               </button>
             </nav>
 
@@ -53,7 +60,7 @@
                 <div class="controles">
                   <div class="busca-wrapper">
                     <label class="sr-only" for="input-busca">Buscar por nome ou número</label>
-                    <span class="icone-busca" aria-hidden="true">⌕</span>
+                    <span class="icone-busca" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="6.3"></circle><path d="m15.5 15.5 5 5"></path></svg></span>
                     <input type="text" id="input-busca" placeholder="Nome ou número — ex.: Pikachu, 25" autocomplete="off">
                     <ul id="lista-sugestoes" class="sugestoes-lista oculto"></ul>
                   </div>
@@ -85,9 +92,9 @@
                     </div>
                     <div class="resumo-dados">
                       <div class="acoes-midia">
-                        <button type="button" id="btn-shiny" class="btn-midia oculto">✨ Shiny</button>
-                        <button type="button" id="btn-som" class="btn-midia oculto">🔊 Som</button>
-                        <button type="button" id="btn-favoritar" class="btn-midia">☆ Favoritar</button>
+                        <button type="button" id="btn-shiny" class="btn-midia btn-shiny oculto"><span class="acao-icone" aria-hidden="true">✦</span><span class="acao-label">Shiny</span></button>
+                        <button type="button" id="btn-som" class="btn-midia btn-som oculto"><span class="acao-icone" aria-hidden="true">♫</span><span class="acao-label">Som</span></button>
+                        <button type="button" id="btn-favoritar" class="btn-midia btn-favoritar"><span class="acao-icone" aria-hidden="true">☆</span><span class="acao-label">Favoritar</span></button>
                       </div>
                       <div id="poke-tipos" class="badges"></div>
                       <p id="poke-descricao" class="descricao-pokedex"></p>
@@ -121,6 +128,21 @@
                 </div>
               </section>
 
+              <section class="view view-filtros oculto" id="view-filtros" role="tabpanel" aria-labelledby="aba-filtros" hidden>
+                <div class="filtros-cabecalho">
+                  <div><p class="eyebrow">CATÁLOGO NACIONAL</p><h2>Explorar Pokémon</h2></div>
+                  <span class="filtros-selo" aria-hidden="true">☷</span>
+                </div>
+                <p class="filtros-intro">Organize a lista por número ou nome, ou filtre por tipo.</p>
+                <div class="filtros-controles">
+                  <label>Ordenar por<select id="filtro-ordenacao"><option value="numero-asc">Número crescente</option><option value="numero-desc">Número decrescente</option><option value="nome-asc">Ordem alfabética</option></select></label>
+                  <label>Tipo<select id="filtro-tipo"><option value="todos">Todos os tipos</option></select></label>
+                </div>
+                <p id="status-filtro" class="status-filtro" role="status" aria-live="polite"></p>
+                <div id="lista-filtrada" class="lista-filtrada"></div>
+                <button id="botao-mais-pokemon" class="botao-mais-pokemon oculto" type="button">Carregar mais Pokémon</button>
+              </section>
+
               <section class="view view-favoritos oculto" id="view-favoritos" role="tabpanel" aria-labelledby="aba-favoritos" hidden>
                 <div class="favoritos-cabecalho">
                   <div><p class="eyebrow">SUA COLEÇÃO</p><h2>Pokémon favoritos</h2></div>
@@ -129,6 +151,23 @@
                 <p class="favoritos-intro">Seus Pokémon marcados ficam guardados aqui neste dispositivo.</p>
                 <div id="lista-favoritos" class="favoritos-lista"></div>
                 <p id="favoritos-vazio" class="favoritos-vazio">Sua coleção está vazia por enquanto. Marque um Pokémon como favorito para encontrá-lo aqui.</p>
+              </section>
+
+              <section class="view view-comparacao oculto" id="view-comparacao" role="tabpanel" aria-labelledby="aba-comparacao" hidden>
+                <div class="comparacao-cabecalho">
+                  <div><p class="eyebrow">ANÁLISE LADO A LADO</p><h2>Comparar Pokémon</h2></div>
+                  <span class="comparacao-selo" aria-hidden="true">⇄</span>
+                </div>
+                <p class="comparacao-intro">Escolha dois Pokémon para comparar tipos e atributos.</p>
+                <form id="form-comparacao" class="comparacao-form">
+                  <label class="campo-comparacao"><span>Pokémon 1</span><input id="comparar-pokemon-a" type="text" placeholder="Nome ou número" autocomplete="off" required></label>
+                  <span class="separador-comparacao" aria-hidden="true">VS</span>
+                  <label class="campo-comparacao"><span>Pokémon 2</span><input id="comparar-pokemon-b" type="text" placeholder="Nome ou número" autocomplete="off" required></label>
+                  <button id="btn-comparar" class="btn-comparar" type="submit">Comparar</button>
+                </form>
+                <p id="mensagem-comparacao" class="mensagem-comparacao" role="status" aria-live="polite"></p>
+                <div id="resultado-comparacao" class="resultado-comparacao oculto"></div>
+                <p id="comparacao-vazia" class="comparacao-vazia">Informe dois nomes ou números para ver qual Pokémon se destaca em cada atributo.</p>
               </section>
             </div>
           </section>
