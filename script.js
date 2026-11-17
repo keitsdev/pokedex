@@ -74,6 +74,27 @@ const mapaStats = {
   'speed': 'Velocidade'
 };
 
+const mapaCoresStats = {
+  hp: '#ef5b78',
+  attack: '#f28b50',
+  defense: '#e7b83f',
+  'special-attack': '#8b70d6',
+  'special-defense': '#4297c8',
+  speed: '#43a982'
+};
+
+const mapaGeracoes = {
+  'generation-i': 'Geração I',
+  'generation-ii': 'Geração II',
+  'generation-iii': 'Geração III',
+  'generation-iv': 'Geração IV',
+  'generation-v': 'Geração V',
+  'generation-vi': 'Geração VI',
+  'generation-vii': 'Geração VII',
+  'generation-viii': 'Geração VIII',
+  'generation-ix': 'Geração IX'
+};
+
 const mapaTipos = {
   normal: { nome: 'Normal', simbolo: '<circle cx="12" cy="12" r="7" fill="none" stroke="currentColor" stroke-width="3"/>' },
   fighting: { nome: 'Lutador', simbolo: '<path d="M7 11V7a2 2 0 0 1 4 0v3-5a2 2 0 0 1 4 0v5-3a2 2 0 0 1 4 0v7c0 4-3 7-7 7h-1c-2 0-3-1-4-3l-3-4a2 2 0 0 1 3-3l2 2"/>' },
@@ -659,11 +680,8 @@ function obterDescricaoPokedex(especie) {
   return escolhida.flavor_text.replace(/[\n\f\r]/g, ' ').replace(/\s+/g, ' ').trim();
 }
 
-function obterCorStat(valor) {
-  if (valor < 60) return '#ff5959';
-  if (valor < 90) return '#ffdd57';
-  if (valor < 120) return '#48c774';
-  return '#3273dc';
+function obterCorStat(nome) {
+  return mapaCoresStats[nome] || '#6488d8';
 }
 
 function renderizarPokemon(pokemon, evolucoes, especie) {
@@ -726,6 +744,8 @@ function renderizarPokemon(pokemon, evolucoes, especie) {
   const containerTipos = document.getElementById('poke-tipos');
   containerTipos.innerHTML = '';
   pokemon.types.forEach(tipo => containerTipos.appendChild(criarBadgeTipo(tipo.type.name)));
+  const geracao = mapaGeracoes[especie.generation && especie.generation.name] || 'Geração não informada';
+  document.getElementById('poke-geracao').textContent = `Introduzido na ${geracao}`;
 
   document.getElementById('poke-descricao').textContent = obterDescricaoPokedex(especie);
 
@@ -745,7 +765,7 @@ function renderizarPokemon(pokemon, evolucoes, especie) {
       const nome = mapaStats[s.stat.name] || s.stat.name;
       const valor = s.base_stat;
       const porcentagem = Math.min((valor / valorMaximo) * 100, 100).toFixed(1);
-      const cor = obterCorStat(valor);
+      const cor = obterCorStat(s.stat.name);
 
       return `
         <div class="stat-cartao" style="--stat-cor:${cor}; --stat-progresso:${porcentagem}%;">
@@ -813,9 +833,10 @@ function renderizarCadeiaEvolutiva(container, estagios) {
     const demais = pokemons.filter(pokemon => pokemon.id !== principal.id);
     const posicoes = obterPosicoesOrbitais(demais.length, grade);
     demais.forEach((pokemon, indice) => {
+      const [linha, coluna] = posicoes[indice];
       const cartao = criarCartaoEvolucao(pokemon, 'evo-radial');
-      cartao.style.gridRow = posicoes[indice][0];
-      cartao.style.gridColumn = posicoes[indice][1];
+      cartao.style.gridRow = linha;
+      cartao.style.gridColumn = coluna;
       orbita.appendChild(cartao);
     });
     container.appendChild(orbita);

@@ -563,3 +563,6 @@ input:focus { border-color: #e2798e; outline: none; box-shadow: 0 0 0 3px rgba(2
 }
 
 .badges .tipo-badge, .comparacao-tipos .tipo-badge { border-radius: 999px; }
+
+.geracao-pokemon { display: block; margin: 0 0 9px; color: #617286; font-size: .68rem; font-weight: 700; letter-spacing: .01em; }
+.device-open[data-theme="dark"] .geracao-pokemon { color: #b9cbe0; }
